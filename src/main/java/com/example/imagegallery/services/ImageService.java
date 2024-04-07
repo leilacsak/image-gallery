@@ -46,9 +46,8 @@ public class ImageService {
         Image image = imageRepository.findById(imageid)
                 .orElseThrow(() -> new NotFoundException("Image not found!"));
 
-
-        image.setDescription(description);
         image.setFilename(filename);
+        image.setDescription(description);
         return imageRepository.save(image);
     }
 

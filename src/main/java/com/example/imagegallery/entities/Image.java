@@ -53,6 +53,10 @@ public class Image {
         this.userid = userid;
     }
 
+    public Gallery getGallery(){
+        return gallery;
+    }
+
     public void setGallery(Gallery gallery) {
         this.gallery = gallery;
     }
