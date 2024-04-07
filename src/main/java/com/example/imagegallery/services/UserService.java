@@ -42,16 +42,9 @@ public class UserService {
             throw new RuntimeException("Invalid email address or password!");
         }
         return user;
-
     }
 
     public List<Gallery> getUserGalleries(Long userid){
         return galleryRepository.findByUserId(userid);
     }
-
-    public User findByUserId(Long userId) {
-        return userRepository.findById(userId).orElse(null);
-    }
-
-
 }

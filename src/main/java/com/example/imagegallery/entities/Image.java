@@ -1,9 +1,6 @@
 package com.example.imagegallery.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Image {
@@ -12,7 +9,10 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long imageid;
-    private Long galleryid;
+    @ManyToOne
+    @JoinColumn(name = "galleryid")
+
+    private Gallery gallery;
 
     private String filename;
     private String description;
@@ -53,6 +53,9 @@ public class Image {
         this.userid = userid;
     }
 
+    public void setGallery(Gallery gallery) {
+        this.gallery = gallery;
+    }
 }
 
 
