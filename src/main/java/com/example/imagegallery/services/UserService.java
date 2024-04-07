@@ -1,18 +1,24 @@
 package com.example.imagegallery.services;
 
+import com.example.imagegallery.entities.Gallery;
 import com.example.imagegallery.entities.User;
+import com.example.imagegallery.repositories.GalleryRepository;
 import com.example.imagegallery.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class UserService {
 
     private final UserRepository userRepository;
+    private final GalleryRepository galleryRepository;
 
     @Autowired
-    public UserService (UserRepository userRepository){
+    public UserService (UserRepository userRepository, GalleryRepository galleryRepository){
         this.userRepository = userRepository;
+        this.galleryRepository=galleryRepository;
     }
 
     public User registerUser(String email, String password){
@@ -39,5 +45,13 @@ public class UserService {
 
     }
 
-    
+    public List<Gallery> getUserGalleries(Long userid){
+        return galleryRepository.findByUserId(userid);
+    }
+
+    public User findByUserId(Long userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
+
+
 }

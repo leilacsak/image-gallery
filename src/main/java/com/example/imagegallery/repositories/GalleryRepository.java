@@ -10,6 +10,6 @@ import java.util.List;
 public interface GalleryRepository extends JpaRepository<Gallery, Long> {
     Gallery findByTitle( String text);
 
-    List<Gallery> findByUserId(Long userId);
+    List<Gallery> findByUserId(Long userid);
 
 }
