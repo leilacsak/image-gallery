@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Image-Gallery!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body style="background-color: #F4F1DE;">
+    <nav>
+        <ul>
+            <li><a href="/Home">Home</a></li>
+            <li><a href="/Login">Login</a></li>
+            <li><a href="/Register">Register</a></li>
+        </ul>
+    </nav>
+
+    <h2>Photo Galleries</h2>
+
+    <div th:each="gallery : ${galleries}">
+        <h3 th:text="${gallery.title}"></h3>
+        <p th:text="${gallery.description}"></p>
+    </div>
+
+    <div class="gallery-container">
+    </div>
+
+</body>
+</html>
