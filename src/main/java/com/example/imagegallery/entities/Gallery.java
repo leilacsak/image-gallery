@@ -53,6 +53,10 @@ public class Gallery {
     public void setUserid(Long userId) {
         this.userid = userid;
     }
+
+    public List<Image> getImages() {
+        return images;
+    }
 }
 
 

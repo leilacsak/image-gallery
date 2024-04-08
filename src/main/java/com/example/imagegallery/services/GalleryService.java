@@ -7,6 +7,9 @@ import com.example.imagegallery.repositories.GalleryRepository;
 import com.example.imagegallery.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 public class GalleryService {
@@ -36,6 +39,7 @@ public class GalleryService {
         return galleryRepository.save(gallery);
     }
 
+    @Transactional
     public Gallery updateGallery(Long galleryid, String newTitle, String newDescription){
         Gallery gallery = galleryRepository.findById(galleryid)
                 .orElseThrow(() -> new NotFoundException("Gallery not found!"));
@@ -49,5 +53,14 @@ public class GalleryService {
         Gallery gallery = galleryRepository.findById(galleryid)
                 .orElseThrow(() -> new  NotFoundException("Gallery not found!"));
         galleryRepository.delete(gallery);
+    }
+
+    public Gallery getGalleryById(Long galleryid){
+        return galleryRepository.findById(galleryid)
+                .orElseThrow(() -> new NotFoundException ("Gallery not found!"));
+    }
+
+    public List<Gallery> getAllGalleries() {
+        return galleryRepository.findAll();
     }
 }
