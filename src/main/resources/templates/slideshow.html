@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Slideshow</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+   
+        #slideshow {
+            position: relative;
+            overflow: hidden;
+            max-width: 500px; 
+            margin: 0 auto;
+        }
+        
+        #slideshow img {
+            display: none;
+            width: 100%;
+            height: auto;
+        }
+        
+        #slideshow img.active {
+            display: block;
+        }
+    </style>
+</head>
+<body style="background-color: #F4F1DE;">
+
+        <h2>Slideshow</h2>
+
+        <div id="slideshow">
+             <th:block th:each="image : ${images}">
+                <img th:src="${image.fullImageUrl}" th:alt="${image.description}" alt="">
+             </th:block>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script th:inline="javascript">
+        $(document).ready(function(){
+            var slides = $("#slideshow img");
+            var slideIndex = 0;
+
+            function showSlides() {
+                slides.hide().removeClass('active');
+                slides.eq(slideIndex).fadeIn().addClass('active');
+                slideIndex++;
+                if (slideIndex >= slides.length) { slideIndex = 0; }
+                setTimeout(showSlides, 3000); 
+            }
+
+            showSlides(); 
+        });
+        </script>
+
+</body>
+</html>

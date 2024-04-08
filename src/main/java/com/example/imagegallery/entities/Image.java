@@ -17,6 +17,10 @@ public class Image {
     private String filename;
     private String description;
     private Long userid;
+    private byte[] imageData;
+
+    private byte[] thumbnailData;
+
 
     public Image() {
     }
@@ -59,6 +63,22 @@ public class Image {
 
     public void setGallery(Gallery gallery) {
         this.gallery = gallery;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+    public byte[] getThumbnailData() {
+        return thumbnailData;
+    }
+
+    public void setThumbnailData(byte[] thumbnailData) {
+        this.thumbnailData = thumbnailData;
     }
 }
 

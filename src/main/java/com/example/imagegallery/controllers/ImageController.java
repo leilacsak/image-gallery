@@ -20,7 +20,8 @@ public class ImageController {
 
     @PostMapping
     public ResponseEntity<Image> addImage(@RequestBody Image image) {
-        Image addedImage = imageService.addImage(image.getGallery().getGalleryid(), image.getFilename(), image.getDescription());
+        Image addedImage = imageService.addImage(image.getGallery().getGalleryid(),
+                image.getFilename(), image.getDescription(), image.getImageData());
         return ResponseEntity.ok(addedImage);
     }
 
