@@ -4,7 +4,6 @@ import com.example.imagegallery.entities.Gallery;
 import com.example.imagegallery.entities.Image;
 import com.example.imagegallery.services.GalleryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,31 +21,27 @@ public class GalleryController {
     }
 
     @PostMapping
-    public ResponseEntity<Gallery> createGallery(@RequestBody Gallery gallery) {
-        Gallery createdGallery = galleryService.createGallery(gallery.getUserid(), gallery.getTitle(), gallery.getDescription());
-        return ResponseEntity.ok(createdGallery);
-        }
+    public String createGallery(@ModelAttribute Gallery gallery) {
+        galleryService.createGallery(gallery.getUserid(), gallery.getTitle(), gallery.getDescription());
+        return "redirect:/galleries";
+    }
 
-    @PutMapping("/{galleryId}")
-    public ResponseEntity<Gallery> updateGallery(@PathVariable Long galleryId, @RequestBody Gallery gallery) {
-        Gallery updatedGallery = galleryService.updateGallery(galleryId, gallery.getTitle(), gallery.getDescription());
-        return ResponseEntity.ok(updatedGallery);
-        }
+    @PutMapping("/{galleryid}")
+    public String updateGallery(@PathVariable Long galleryid, @ModelAttribute Gallery gallery) {
+        galleryService.updateGallery(galleryid, gallery.getTitle(), gallery.getDescription());
+        return "redirect:/galleries";
+    }
 
-    @DeleteMapping("/{galleryId}")
-    public ResponseEntity<Void> deleteGallery(@PathVariable Long galleryId) {
-        galleryService.deleteGallery(galleryId);
-        return ResponseEntity.noContent().build();
-        }
+    @DeleteMapping("/{galleryid}")
+    public String deleteGallery(@PathVariable Long galleryid) {
+        galleryService.deleteGallery(galleryid);
+        return "redirect:/galleries";
+    }
 
-    @GetMapping("/gallery/{galleryId}")
-    public String viewGallery(@PathVariable Long galleryId, Model model) {
-        Gallery gallery = galleryService.getGalleryById(galleryId);
-        List<Image> images = gallery.getImages();
-
+    @GetMapping("/{galleryid}")
+    public String viewGallery(@PathVariable Long galleryid, Model model) {
+        Gallery gallery = galleryService.getGalleryById(galleryid);
         model.addAttribute("gallery", gallery);
-        model.addAttribute("images", images);
-
         return "gallery";
     }
 
@@ -56,6 +51,7 @@ public class GalleryController {
         model.addAttribute("galleries", galleries);
         return "Home";
     }
+
 }
 
 
