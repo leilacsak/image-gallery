@@ -15,6 +15,8 @@ public class User {
     private String email;
     private String password;
 
+    private String username;
+
     public Long getUserid(){
         return userid;
     }
@@ -37,6 +39,14 @@ public class User {
 
     public void setPassword(String password){
         this.password = password;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
     }
 
     public User(){
