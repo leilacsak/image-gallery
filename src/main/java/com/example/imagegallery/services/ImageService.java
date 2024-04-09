@@ -39,15 +39,6 @@ public class ImageService {
     public Image addImage(Long galleryid, String filename, String description, byte[] imageData) {
         Gallery gallery = galleryRepository.findById(galleryid)
                 .orElseThrow(() -> new NotFoundException("Gallery is not found!"));
-
-
-        Image image = new Image();
-        image.setGallery(gallery);
-        image.setDescription(description);
-        image.setFilename(filename);
-        image.setImageData(imageData);
-        imageRepository.save(image);
-
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(imageData);
             BufferedImage originalImage = ImageIO.read(inputStream);
@@ -64,15 +55,20 @@ public class ImageService {
                 ImageIO.write(thumbnail, "jpg", baos);
                 byte[] thumbnailData = baos.toByteArray();
 
+                Image image = new Image();
+                image.setGallery(gallery);
+                image.setDescription(description);
+                image.setFilename(filename);
+                image.setImageData(imageData);
+                image.setThumbnailData(thumbnailData);
+                return imageRepository.save(image);
             } else {
                 throw new IOException("Could not load original image.");
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Error occured while generating thumbnail..." + e.getMessage());
+            throw new RuntimeException("Error occurred while generating thumbnail..." + e.getMessage());
         }
-
-        return image;
     }
 
 
