@@ -5,12 +5,13 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class Gallery {
+
+public class Gallery
+
+    {@OneToMany(mappedBy = "gallery")
+    private List<Image>images;
 
     @Id
-    @OneToMany(mappedBy = "gallery")
-
-    private List<Image>images;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long galleryid;
 
