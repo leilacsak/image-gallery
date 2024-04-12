@@ -15,17 +15,20 @@ public class UserService {
     private final UserRepository userRepository;
     private final GalleryRepository galleryRepository;
 
+    private final User user;
+
     @Autowired
-    public UserService (UserRepository userRepository, GalleryRepository galleryRepository){
+    public UserService (UserRepository userRepository, GalleryRepository galleryRepository, User user){
         this.userRepository = userRepository;
         this.galleryRepository=galleryRepository;
+        this.user = user;
     }
 
 
     public User registerUser(String email, String password, String username){
 
-        if(userRepository.findByEmail(email) != null) {
-            throw new RuntimeException("This email address is already taken!");
+        if(userRepository.existsByEmail(user.getEmail())){
+            throw new IllegalArgumentException("This email address is already taken!");
         }
 
         User user= new User();

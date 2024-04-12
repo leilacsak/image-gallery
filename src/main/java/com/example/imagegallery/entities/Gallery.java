@@ -8,7 +8,7 @@ import java.util.List;
 public class Gallery {
 
     @Id
-    @OneToMany(mappedBy = "Gallery", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "gallery")
 
     private List<Image>images;
     @GeneratedValue(strategy = GenerationType.IDENTITY)

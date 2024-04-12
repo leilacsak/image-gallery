@@ -30,7 +30,7 @@ public class UserController {
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         User existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser != null) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().build();
         }
         User registeredUser = userService.registerUser(user.getEmail(), user.getPassword(), user.getUsername());
         return ResponseEntity.ok(registeredUser);

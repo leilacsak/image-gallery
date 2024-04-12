@@ -21,13 +21,13 @@ public class GalleryController {
     @PostMapping
     public String createGallery(@ModelAttribute Gallery gallery) {
         galleryService.createGallery(gallery.getUserid(), gallery.getTitle(), gallery.getDescription());
-        return "redirect:/galleries";
+        return "redirect:/";
     }
 
     @PutMapping("/{galleryid}")
     public String updateGallery(@PathVariable Long galleryid, @ModelAttribute Gallery gallery) {
         galleryService.updateGallery(galleryid, gallery.getTitle(), gallery.getDescription());
-        return "redirect:/galleries/{galleryid}";
+        return "redirect:/galleries/" + galleryid;
     }
 
     @DeleteMapping("/{galleryid}")

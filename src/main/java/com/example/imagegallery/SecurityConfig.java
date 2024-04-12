@@ -37,8 +37,6 @@ public class SecurityConfig {
                 )
                 .csrf((csrf) -> csrf.disable());
 
-        http.httpBasic(withDefaults());
-
         return http.build();
     }
 }
