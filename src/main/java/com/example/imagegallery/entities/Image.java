@@ -7,7 +7,6 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long imageid;
     @ManyToOne
     @JoinColumn(name = "galleryid")

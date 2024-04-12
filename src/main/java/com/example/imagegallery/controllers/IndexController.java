@@ -11,11 +11,11 @@ public class IndexController {
 
     @GetMapping("/login")
     public String showLoginPage() {
-        return "login";
+        return "Login";
     }
 
     @GetMapping("/register")
     public String showRegistrationPage() {
-        return "register";
+        return "Register";
     }
 }

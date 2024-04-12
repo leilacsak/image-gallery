@@ -4,10 +4,10 @@ import com.example.imagegallery.entities.Gallery;
 import com.example.imagegallery.services.GalleryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+
+@RestController
 
 public class GalleryViewController {
 
@@ -26,8 +26,8 @@ public class GalleryViewController {
     }
 
     @GetMapping("/gallery/{galleryid}/edit")
-    public String editGallery(@PathVariable Long galleryId, Model model) {
-        Gallery gallery = galleryService.getGalleryById(galleryId);
+    public String editGallery(@PathVariable Long galleryid, Model model) {
+        Gallery gallery = galleryService.getGalleryById(galleryid);
         model.addAttribute("gallery", gallery);
         return "editGallery";
     }

@@ -8,11 +8,10 @@ import java.util.List;
 public class Gallery {
 
     @Id
+    @OneToMany(mappedBy = "Gallery", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    private List<Image>images;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OneToMany(mappedBy = "gallery", cascade = CascadeType.ALL, orphanRemoval = true)
-
-    private List<Image> images;
-
     private Long galleryid;
 
     private String title;
@@ -50,12 +49,16 @@ public class Gallery {
         return userid;
     }
 
-    public void setUserid(Long userId) {
+    public void setUserid(Long userid) {
         this.userid = userid;
     }
 
     public List<Image> getImages() {
         return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 }
 

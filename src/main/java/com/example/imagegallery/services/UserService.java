@@ -21,7 +21,8 @@ public class UserService {
         this.galleryRepository=galleryRepository;
     }
 
-    public User registerUser(String email, String password){
+
+    public User registerUser(String email, String password, String username){
 
         if(userRepository.findByEmail(email) != null) {
             throw new RuntimeException("This email address is already taken!");
@@ -30,14 +31,15 @@ public class UserService {
         User user= new User();
         user.setEmail(email);
         user.setPassword(password);
+        user.setUsername(username);
 
         return userRepository.save(user);
 
     }
 
-    public User loginUser(String email, String passrowd){
+    public User loginUser(String email, String password){
 
-        User user = userRepository.findByEmailAndPassword(email, passrowd);
+        User user = userRepository.findByEmailAndPassword(email, password);
         if (user == null) {
             throw new RuntimeException("Invalid email address or password!");
         }

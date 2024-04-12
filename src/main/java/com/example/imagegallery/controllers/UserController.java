@@ -18,7 +18,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserController(UserService userService, UserRepository userRepository){
@@ -32,7 +32,7 @@ public class UserController {
         if (existingUser != null) {
             return ResponseEntity.badRequest().body(null);
         }
-        User registeredUser = userService.registerUser(user.getEmail(), user.getPassword());
+        User registeredUser = userService.registerUser(user.getEmail(), user.getPassword(), user.getUsername());
         return ResponseEntity.ok(registeredUser);
     }
 
@@ -46,7 +46,7 @@ public class UserController {
         return ResponseEntity.ok(loginedUser);
     }
 
-    @GetMapping ("/{userId}/galleries")
+    @GetMapping ("/{userid}/galleries")
     public ResponseEntity<List<Gallery>> getUserGalleries(@PathVariable Long userid) {
         List<Gallery> galleries = userService.getUserGalleries(userid);
         return ResponseEntity.ok(galleries);
