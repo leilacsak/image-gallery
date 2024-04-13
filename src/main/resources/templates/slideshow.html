@@ -30,27 +30,41 @@
 
         <div id="slideshow">
              <th:block th:each="image : ${images}">
-                <img th:src="${image.fullImageUrl}" th:alt="${image.description}" alt="">
+                <img th:src="${image.fullImageUrl}" th:alt="${image.Description}" alt="">
              </th:block>
         </div>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script th:inline="javascript">
         $(document).ready(function(){
-            var slides = $("#slideshow img");
-            var slideIndex = 0;
+        var slideshow = $('#slideshow');
 
-            function showSlides() {
-                slides.hide().removeClass('active');
-                slides.eq(slideIndex).fadeIn().addClass('active');
-                slideIndex++;
-                if (slideIndex >= slides.length) { slideIndex = 0; }
-                setTimeout(showSlides, 3000); 
+        $.ajax({
+            url: "/api/images/gallery/{GalleryId}",
+            method: "GET",
+            success: function(response) {
+                response.forEach(function(image) {
+                    slideshow.append('<img src="' + image.fullImageUrl + '" alt="' + image.Description + '" />');
+                });
+
+                var slides = slideshow.find("img");
+                var slideIndex = 0;
+
+                function showSlides() {
+                    slides.hide().removeClass('active');
+                    slides.eq(slideIndex).fadeIn().addClass('active');
+                    slideIndex++;
+                    if (slideIndex >= slides.length) { slideIndex = 0; }
+                    setTimeout(showSlides, 3000);
+                }
+
+                showSlides();
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching images:", error);
             }
-
-            showSlides(); 
         });
-        </script>
-
+    });
+</script>
 </body>
 </html>
