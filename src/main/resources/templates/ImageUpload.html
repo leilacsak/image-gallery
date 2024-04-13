@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css" rel="stylesheet">
+    <title>Upload Images</title>
+</head>
+<body>
+
+<h2>Upload Images here</h2>
+<form id="imageUploadForm" enctype="multipart/form-data">
+    <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
+    <label for="Description"></label><input type="text" id="Description" name="Description" placeholder="Image Description" required>
+    <button type="Submit">Upload</button>
+</form>
+
+<div id="status"></div>
+
+<input type="file" id="inputImage" accept="image/*">
+<div id="imageContainer">
+    <img id="cropperImage" src="" alt="Uploaded Image">
+</div>
+
+<button id="cropButton">Crop Image</button>
+
+<script>
+    document.getElementById("imageUploadForm").addEventListener("Submit", function(event) {
+        event.preventDefault();
+
+        var form = this;
+        var formData = new FormData(form);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/images", true);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    document.getElementById("status").textContent = "Image uploaded successfully!";
+                    form.reset();
+                } else {
+                    document.getElementById("status").textContent = "Error uploading image. Please try again.";
+                }
+            }
+        };
+
+        xhr.send(formData);
+    });
+
+    const input = document.getElementById('inputImage');
+    const image = document.getElementById('cropperImage');
+    const cropper = new Cropper(image, {
+        aspectRatio: 16 / 9,
+        viewMode: 1,
+    });
+
+    input.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            image.src = event.target.result;
+            cropper.replace(event.target.result);
+        };
+        reader.readAsDataURL(file);
+    });
+
+    document.getElementById('cropButton').addEventListener('click', () => {
+        const croppedCanvas = cropper.getCroppedCanvas();
+        if (croppedCanvas) {
+            const croppedImageData = croppedCanvas.toDataURL('image/jpeg');
+        }
+    });
+</script>
+
+<script>
+
+    function sendCroppedImageData(croppedImageData)
+        var formData = new FormData();
+        formData.append('croppedImageData', croppedImageData);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/api/cropped-image', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log('Cropped image data sent successfully');
+            } else {
+                console.error('Error sending cropped image data');
+            }
+        };
+        xhr.send(formData);
+    }
+
+
+    document.getElementById('cropButton').addEventListener('click', function () {
+        var croppedCanvas = cropper.getCroppedCanvas();
+        if (croppedCanvas) {
+            var croppedImageData = croppedCanvas.toDataURL('image/jpeg');
+            sendCroppedImageData(croppedImageData);
+        } else {
+            console.error('Failed to get cropped canvas');
+        }
+    });
+</script>
+
+
+</body>
+</html>

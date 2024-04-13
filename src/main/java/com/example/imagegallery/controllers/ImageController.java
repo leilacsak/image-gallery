@@ -4,9 +4,12 @@ import com.example.imagegallery.entities.Image;
 import com.example.imagegallery.services.GalleryService;
 import com.example.imagegallery.services.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -29,11 +32,19 @@ public class ImageController {
         return ResponseEntity.ok(images);
     }
 
-    @PostMapping
-    public ResponseEntity<Image> addImage(@RequestBody Image image) {
-        Image addedImage = imageService.addImage(image.getGallery().getGalleryId(),
-                image.getFilename(), image.getDescription(), image.getImageData());
-        return ResponseEntity.ok(addedImage);
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadImage(@RequestParam ("imageFile")MultipartFile imageFile,
+                                              @RequestParam ("description") String Description,
+                                              @RequestParam("GalleryId") Long GalleryId)
+    {
+        try {
+            byte[] imageData = imageFile.getBytes();
+            Image addedImage = imageService.addImage(GalleryId, imageFile.getOriginalFilename(), Description, imageData);
+            return ResponseEntity.ok("Image uploaded successfully! Image ID: " + addedImage.getImageId());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to upload image: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{imageId}")
