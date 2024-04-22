@@ -1,3 +1,4 @@
+
 package com.example.imagegallery.services;
 
 import com.example.imagegallery.NotFoundException;
@@ -23,9 +24,10 @@ public class GalleryService {
         this.userRepository = userRepository;
     }
 
-    public Gallery createGallery (Long userid, String title, String description) {
+    @Transactional
+    public Gallery createGallery (Long userId, String title, String description) {
 
-        User user = userRepository.findByUserId(userid);
+        User user = userRepository.findByUserId(userId);
 
         if (user == null) {
             throw new RuntimeException("User does not exist!");
@@ -34,14 +36,14 @@ public class GalleryService {
         Gallery gallery = new Gallery();
         gallery.setTitle(title);
         gallery.setDescription(description);
-        gallery.setUserid(userid);
+        gallery.setUserId(userId);
 
         return galleryRepository.save(gallery);
     }
 
     @Transactional
-    public Gallery updateGallery(Long galleryid, String newTitle, String newDescription){
-        Gallery gallery = galleryRepository.findById(galleryid)
+    public Gallery updateGallery(Long galleryId, String newTitle, String newDescription) {
+        Gallery gallery = galleryRepository.findById(galleryId)
                 .orElseThrow(() -> new NotFoundException("Gallery not found!"));
 
         gallery.setDescription(newDescription);
@@ -49,14 +51,14 @@ public class GalleryService {
         return galleryRepository.save(gallery);
     }
 
-    public void deleteGallery(Long galleryid){
-        Gallery gallery = galleryRepository.findById(galleryid)
+    public void deleteGallery(Long galleryId) {
+        Gallery gallery = galleryRepository.findById(galleryId)
                 .orElseThrow(() -> new  NotFoundException("Gallery not found!"));
         galleryRepository.delete(gallery);
     }
 
-    public Gallery getGalleryById(Long galleryid){
-        return galleryRepository.findById(galleryid)
+    public Gallery getGalleryById(Long galleryId) {
+        return galleryRepository.findById(galleryId)
                 .orElseThrow(() -> new NotFoundException ("Gallery not found!"));
     }
 

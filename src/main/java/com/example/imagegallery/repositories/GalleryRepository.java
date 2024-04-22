@@ -8,8 +8,69 @@ import java.util.List;
 
 @Repository
 public interface GalleryRepository extends JpaRepository<Gallery, Long> {
-    Gallery findByTitle( String text);
 
-    List<Gallery> findByUserId(Long userid);
+    Gallery findByTitle (String title);
 
+    List<Gallery> findByUserId(Long userId);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -29,7 +29,7 @@
         <h2>Slideshow</h2>
 
         <div id="slideshow">
-             <th:block th:each="image : ${images}">
+             <th:block th:each="image : ${image}">
                 <img th:src="${image.fullImageUrl}" th:alt="${image.Description}" alt="">
              </th:block>
         </div>
@@ -40,7 +40,7 @@
         var slideshow = $('#slideshow');
 
         $.ajax({
-            url: "/api/images/gallery/{GalleryId}",
+            url: "/api/image/gallery/{galleryId}",
             method: "GET",
             success: function(response) {
                 response.forEach(function(image) {

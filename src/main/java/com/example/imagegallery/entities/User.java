@@ -9,18 +9,18 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private Long userid;
+    private Long userId;
     private String email;
     private String password;
 
-    private String username;
+    private String userName;
 
-    public Long getUserid(){
-        return userid;
+    public Long getUserId(){
+        return userId;
     }
 
-    public void setUserid(Long userid){
-        this.userid = userid;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getEmail(){
@@ -32,19 +32,18 @@ public class User {
     }
 
     public String getPassword(){
-        return password;
-    }
+            return password;}
 
     public void setPassword(String password){
         this.password = password;
     }
 
-    public String getUsername(){
-        return username;
+    public String getUserName(){
+        return userName;
     }
 
-    public void setUsername(String username){
-        this.username = username;
+    public void setUserName(String userName){
+        this.userName = userName;
     }
 
     public User(){

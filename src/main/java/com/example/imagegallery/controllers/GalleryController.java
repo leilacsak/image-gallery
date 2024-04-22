@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/galleries")
+@RequestMapping("/api/gallery")
 public class GalleryController {
     private final GalleryService galleryService;
 
@@ -20,33 +20,33 @@ public class GalleryController {
 
     @PostMapping
     public String createGallery(@ModelAttribute Gallery gallery) {
-        galleryService.createGallery(gallery.getUserid(), gallery.getTitle(), gallery.getDescription());
+        galleryService.createGallery(gallery.getUserId(), gallery.getTitle(), gallery.getDescription());
         return "redirect:/";
     }
 
-    @PutMapping("/{galleryid}")
-    public String updateGallery(@PathVariable Long galleryid, @ModelAttribute Gallery gallery) {
-        galleryService.updateGallery(galleryid, gallery.getTitle(), gallery.getDescription());
-        return "redirect:/galleries/" + galleryid;
+    @PutMapping("/{galleryId}")
+    public String updateGallery(@PathVariable Long galleryId, @ModelAttribute Gallery gallery) {
+        galleryService.updateGallery(galleryId, gallery.getTitle(), gallery.getDescription());
+        return "redirect:/gallery/" + galleryId;
     }
 
-    @DeleteMapping("/{galleryid}")
-    public String deleteGallery(@PathVariable Long galleryid) {
-        galleryService.deleteGallery(galleryid);
-        return "redirect:/galleries";
+    @DeleteMapping("/{galleryId}")
+    public String deleteGallery(@PathVariable Long galleryId) {
+        galleryService.deleteGallery(galleryId);
+        return "redirect:/gallery";
     }
 
-    @GetMapping("/{galleryid}")
-    public String viewGallery(@PathVariable Long galleryid, Model model) {
-        Gallery gallery = galleryService.getGalleryById(galleryid);
+    @GetMapping("/{galleryId}")
+    public String viewGallery(@PathVariable Long galleryId, Model model) {
+        Gallery gallery = galleryService.getGalleryById(galleryId);
         model.addAttribute("gallery", gallery);
         return "GalleryView";
     }
 
     @GetMapping("/")
     public String showHomePage(Model model) {
-        List<Gallery> galleries = galleryService.getAllGalleries();
-        model.addAttribute("galleries", galleries);
+        List<Gallery> gallery = galleryService.getAllGalleries();
+        model.addAttribute("gallery", gallery);
         return "Home";
     }
 

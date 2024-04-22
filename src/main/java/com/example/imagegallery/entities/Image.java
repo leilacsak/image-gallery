@@ -7,15 +7,15 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long imageid;
-    @ManyToOne
-    @JoinColumn(name = "galleryid")
+    private Long imageId;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Gallery.class)
+    @JoinColumn(name = "galleryId", referencedColumnName = "galleryId")
 
     private Gallery gallery;
 
-    private String filename;
+    private String fileName;
     private String description;
-    private Long userid;
+    private Long userId;
     private byte[] imageData;
 
     private byte[] thumbnailData;
@@ -24,20 +24,20 @@ public class Image {
     public Image() {
     }
 
-    public Long getImageid() {
-        return imageid;
+    public Long getImageId() {
+        return imageId;
     }
 
-    public void setImageid(Long imageid) {
-        this.imageid = imageid;
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
     }
 
     public String getFilename() {
-        return filename;
+        return fileName;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setFilename(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getDescription() {
@@ -48,12 +48,12 @@ public class Image {
         this.description = description;
     }
 
-    public Long getUserid() {
-        return userid;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserid(Long userid) {
-        this.userid = userid;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Gallery getGallery(){

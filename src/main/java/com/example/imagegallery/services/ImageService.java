@@ -7,6 +7,7 @@ import com.example.imagegallery.repositories.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.example.imagegallery.NotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -28,20 +29,21 @@ public class ImageService {
         this.galleryRepository = galleryRepository;
     }
 
-    public List<Image> findByGalleryId(Long galleryid) {
-        return imageRepository.findByGalleryId(galleryid);
+    public List<Image> getImagesByGalleryId(Long galleryId) {
+        return imageRepository.findByGalleryId(galleryId);
+
     }
 
-    public void deleteImagesByGalleryId(Long galleryid) {
-        imageRepository.deleteByGalleryId(galleryid);
+    public void deleteImagesByGalleryId(Long galleryId) {
+        imageRepository.deleteByGalleryId(galleryId);
     }
 
-    public Image addImage(Long galleryid, String filename, String description, byte[] imageData) {
-        Gallery gallery = galleryRepository.findById(galleryid)
+    @Transactional
+    public Image addImage(Long galleryId, String fileName, String description, byte[] imageData) {
+        Gallery gallery = galleryRepository.findById(galleryId)
                 .orElseThrow(() -> new NotFoundException("Gallery is not found!"));
         try {
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(imageData);
-            BufferedImage originalImage = ImageIO.read(inputStream);
+            BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(imageData));
 
             if (originalImage != null) {
                 int thumbnailWidth = 100;
@@ -58,7 +60,7 @@ public class ImageService {
                 Image image = new Image();
                 image.setGallery(gallery);
                 image.setDescription(description);
-                image.setFilename(filename);
+                image.setFilename(fileName);
                 image.setImageData(imageData);
                 image.setThumbnailData(thumbnailData);
                 return imageRepository.save(image);
@@ -66,23 +68,22 @@ public class ImageService {
                 throw new IOException("Could not load original image.");
             }
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException("Error occurred while generating thumbnail..." + e.getMessage());
         }
     }
 
-
-    public Image updateImage(Long imageid, String filename, String description) {
-        Image image = imageRepository.findById(imageid)
+    @Transactional
+    public Image updateImage(Long imageId, String fileName, String description) {
+        Image image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new NotFoundException("Image not found!"));
 
-        image.setFilename(filename);
+        image.setFilename(fileName);
         image.setDescription(description);
         return imageRepository.save(image);
     }
-
-    public void deleteImage (Long imageid) {
-        Image image = imageRepository.findById(imageid)
+    @Transactional
+    public void deleteImage (Long imageId) {
+        Image image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new NotFoundException("Image not found!"));
 
         imageRepository.delete(image);

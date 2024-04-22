@@ -18,24 +18,24 @@ public class GalleryViewController {
         this.galleryService = galleryService;
     }
 
-    @GetMapping("/{galleryid}")
-    public String viewGallery(@PathVariable Long galleryid, Model model){
-        Gallery gallery = galleryService.getGalleryById(galleryid);
+    @GetMapping("/{galleryId}")
+    public String viewGallery(@PathVariable Long galleryId, Model model){
+        Gallery gallery = galleryService.getGalleryById(galleryId);
         model.addAttribute("gallery", gallery);
         return "GalleryView";
     }
 
-    @GetMapping("/gallery/{galleryid}/edit")
-    public String editGallery(@PathVariable Long galleryid, Model model) {
-        Gallery gallery = galleryService.getGalleryById(galleryid);
+    @GetMapping("/gallery/{galleryId}/edit")
+    public String editGallery(@PathVariable Long galleryId, Model model) {
+        Gallery gallery = galleryService.getGalleryById(galleryId);
         model.addAttribute("gallery", gallery);
         return "editGallery";
     }
 
-    @PostMapping("/gallery/{galleryid}/edit")
-    public String updateGallery(@PathVariable Long galleryid, @ModelAttribute("gallery") Gallery gallery) {
-        galleryService.updateGallery(galleryid, gallery.getTitle(), gallery.getDescription());
-        return "redirect:/gallery/{galleryid}";
+    @PostMapping("/gallery/{galleryId}/edit")
+    public String updateGallery(@PathVariable Long galleryId, @ModelAttribute("gallery") Gallery gallery) {
+        galleryService.updateGallery(galleryId, gallery.getTitle(), gallery.getDescription());
+        return "redirect:/gallery/{galleryId}";
     }
 }
 

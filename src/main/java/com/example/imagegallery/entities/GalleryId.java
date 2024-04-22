@@ -5,27 +5,27 @@ import java.util.Objects;
 
 public class GalleryId implements Serializable {
 
-    private Long galleryid;
-    private Long userid;
+    private Long galleryId;
+    private Long userId;
 
 
     public GalleryId() {
     }
 
-   public Long getGalleryid() {
-        return galleryid;
+   public Long getGalleryId() {
+        return galleryId;
     }
 
-    public void setGalleryid(Long galleryid) {
-        this.galleryid = galleryid;
+    public void setGalleryId(Long galleryId) {
+        this.galleryId= galleryId;
     }
 
-    public Long getUserid() {
-        return userid;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserid(Long userid) {
-        this.userid = userid;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -33,13 +33,13 @@ public class GalleryId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GalleryId galleryId = (GalleryId) o;
-        return Objects.equals(galleryid, galleryId.galleryid) &&
-                Objects.equals(userid, galleryId.userid);
+        return Objects.equals(galleryId, galleryId.galleryId) &&
+                Objects.equals(userId, galleryId.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(galleryid, userid);
+        return Objects.hash(galleryId, userId);
     }
 
 }

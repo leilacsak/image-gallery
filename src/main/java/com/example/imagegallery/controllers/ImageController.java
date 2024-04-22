@@ -13,33 +13,34 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/images")
+@RequestMapping("/api/image")
 
 public class ImageController {
 
     private final ImageService imageService;
 
-
+    private final GalleryService galleryService;
 
     @Autowired
-    public ImageController(ImageService imageService){
+    public ImageController(ImageService imageService, GalleryService galleryService){
         this.imageService = imageService;
+        this.galleryService = galleryService;
     }
 
-    @GetMapping("/gallery/{GalleryId}")
-    public ResponseEntity<List<Image>> getImagesByGalleryId(@PathVariable Long GalleryId) {
-        List<Image> images = imageService.getImagesByGalleryId(GalleryId);
+    @GetMapping("/gallery/{galleryId}")
+    public ResponseEntity<List<Image>> getImagesByGalleryId(@PathVariable Long galleryId) {
+        List<Image> images = imageService.getImagesByGalleryId(galleryId);
         return ResponseEntity.ok(images);
     }
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadImage(@RequestParam ("imageFile")MultipartFile imageFile,
-                                              @RequestParam ("description") String Description,
-                                              @RequestParam("GalleryId") Long GalleryId)
+                                              @RequestParam ("description") String description,
+                                              @RequestParam("galleryId") Long galleryId)
     {
         try {
             byte[] imageData = imageFile.getBytes();
-            Image addedImage = imageService.addImage(GalleryId, imageFile.getOriginalFilename(), Description, imageData);
+            Image addedImage = imageService.addImage(galleryId, imageFile.getOriginalFilename(), description, imageData);
             return ResponseEntity.ok("Image uploaded successfully! Image ID: " + addedImage.getImageId());
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -48,14 +49,14 @@ public class ImageController {
     }
 
     @PutMapping("/{imageId}")
-    public ResponseEntity<Image> updateImage(@PathVariable Long ImageId, @RequestBody Image updatedImage) {
-        Image image = imageService.updateImage(ImageId, updatedImage.getDescription(), updatedImage.getFilename());
+    public ResponseEntity<Image> updateImage(@PathVariable Long imageId, @RequestBody Image updatedImage) {
+        Image image = imageService.updateImage(imageId, updatedImage.getDescription(), updatedImage.getFilename());
         return ResponseEntity.ok(image);
     }
 
     @DeleteMapping("/{imageId}")
-    public ResponseEntity<Void> deleteImage(@PathVariable Long ImageId) {
-        imageService.deleteImage(ImageId);
+    public ResponseEntity<Void> deleteImage(@PathVariable Long imageId) {
+        imageService.deleteImage(imageId);
         return ResponseEntity.noContent().build();
     }
 }

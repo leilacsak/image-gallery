@@ -5,29 +5,32 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@NamedQuery(name = "Image.findByGalleryId",
+            query = "select i from Image i where i.gallery.galleryId = :galleryId")
 
-public class Gallery
-
-    {@OneToMany(mappedBy = "gallery")
-    private List<Image>images;
+public class Gallery {
+    @OneToMany(mappedBy = "gallery")
+    private List<Image> images;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long galleryid;
+    private Long galleryId;
 
     private String title;
     private String description;
-    private Long userid;
+
+    @Column(name = "userId")
+    private Long userId;
 
     public Gallery() {
     }
 
-    public Long getGalleryid() {
-        return galleryid;
+    public Long getGalleryId() {
+        return galleryId;
     }
 
-    public void setGalleryid(Long galleryid) {
-        this.galleryid = galleryid;
+    public void setGalleryId(Long galleryId) {
+        this.galleryId = galleryId;
     }
 
     public String getTitle() {
@@ -45,14 +48,12 @@ public class Gallery
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Long getUserid() {
-        return userid;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserid(Long userid) {
-        this.userid = userid;
-    }
+    public void setUserId(Long userId) {
+        this.userId = userId;}
 
     public List<Image> getImages() {
         return images;
@@ -61,7 +62,11 @@ public class Gallery
     public void setImages(List<Image> images) {
         this.images = images;
     }
+
 }
+
+
+
 
 
 

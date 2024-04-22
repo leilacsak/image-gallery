@@ -12,7 +12,7 @@
 <h2>Upload Images here</h2>
 <form id="imageUploadForm" enctype="multipart/form-data">
     <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
-    <label for="Description"></label><input type="text" id="Description" name="Description" placeholder="Image Description" required>
+    <label for="description"></label><input type="text" id="description" name="description" placeholder="Image Description" required>
     <button type="Submit">Upload</button>
 </form>
 
@@ -33,7 +33,7 @@
         var formData = new FormData(form);
 
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/api/images", true);
+        xhr.open("POST", "/api/image", true);
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {

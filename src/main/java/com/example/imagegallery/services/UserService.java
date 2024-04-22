@@ -15,26 +15,24 @@ public class UserService {
     private final UserRepository userRepository;
     private final GalleryRepository galleryRepository;
 
-    private final User user;
 
     @Autowired
-    public UserService (UserRepository userRepository, GalleryRepository galleryRepository, User user){
+    public UserService (UserRepository userRepository, GalleryRepository galleryRepository){
         this.userRepository = userRepository;
         this.galleryRepository=galleryRepository;
-        this.user = user;
     }
 
 
-    public User registerUser(String email, String password, String username){
+    public User registerUser(String email, String password, String userName){
 
-        if(userRepository.existsByEmail(user.getEmail())){
+        if(userRepository.existsByEmail(email)){
             throw new IllegalArgumentException("This email address is already taken!");
         }
 
         User user= new User();
         user.setEmail(email);
         user.setPassword(password);
-        user.setUsername(username);
+        user.setUserName(userName);
 
         return userRepository.save(user);
 
@@ -49,7 +47,7 @@ public class UserService {
         return user;
     }
 
-    public List<Gallery> getUserGalleries(Long userid){
-        return galleryRepository.findByUserId(userid);
+    public List<Gallery> getUserGalleries(Long userId) {
+        return galleryRepository.findByUserId(userId);
     }
 }

@@ -32,7 +32,7 @@ public class UserController {
         if (existingUser != null) {
             return ResponseEntity.badRequest().build();
         }
-        User registeredUser = userService.registerUser(user.getEmail(), user.getPassword(), user.getUsername());
+        User registeredUser = userService.registerUser(user.getEmail(), user.getPassword(), user.getUserName());
         return ResponseEntity.ok(registeredUser);
     }
 
@@ -46,9 +46,9 @@ public class UserController {
         return ResponseEntity.ok(loginedUser);
     }
 
-    @GetMapping ("/{userid}/galleries")
-    public ResponseEntity<List<Gallery>> getUserGalleries(@PathVariable Long userid) {
-        List<Gallery> galleries = userService.getUserGalleries(userid);
+    @GetMapping ("/{userId}/gallery")
+    public ResponseEntity<List<Gallery>> getUserGalleries(@PathVariable Long userId) {
+        List<Gallery> galleries = userService.getUserGalleries(userId);
         return ResponseEntity.ok(galleries);
     }
 }
