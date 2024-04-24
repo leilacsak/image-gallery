@@ -3,56 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css" rel="stylesheet">
     <title>Upload Images</title>
 </head>
 <body>
 
-<h2>Upload Images here</h2>
-<form id="imageUploadForm" enctype="multipart/form-data">
-    <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
-    <label for="description"></label><input type="text" id="description" name="description" placeholder="Image Description" required>
-    <button type="Submit">Upload</button>
-</form>
+<div class="container">
+    <h2>Upload Images here</h2>
+    <form id="imageUploadForm" enctype="multipart/form-data">
+        <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
+        <button type="button" id="cropButton" style="display: none;">Crop Image</button>
+        <button type="Submit" id="uploadButton" style="display: none;">Upload</button>
+    </form>
 
-<div id="status"></div>
+    <div id="status"></div>
 
-<input type="file" id="inputImage" accept="image/*">
-<div id="imageContainer">
-    <img id="cropperImage" src="" alt="Uploaded Image">
+    <div id="imageContainer" style="display: none;">
+        <img id="cropperImage" src="" alt="Uploaded Image">
+    </div>
 </div>
 
-<button id="cropButton">Crop Image</button>
-
 <script>
-    document.getElementById("imageUploadForm").addEventListener("Submit", function(event) {
-        event.preventDefault();
-
-        var form = this;
-        var formData = new FormData(form);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/api/image", true);
-
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    document.getElementById("status").textContent = "Image uploaded successfully!";
-                    form.reset();
-                } else {
-                    document.getElementById("status").textContent = "Error uploading image. Please try again.";
-                }
-            }
-        };
-
-        xhr.send(formData);
-    });
-
-    const input = document.getElementById('inputImage');
+    const input = document.getElementById('imageFile');
     const image = document.getElementById('cropperImage');
     const cropper = new Cropper(image, {
-        aspectRatio: 16 / 9,
+        aspectRatio: null,
         viewMode: 1,
     });
 
@@ -62,6 +39,8 @@
         reader.onload = (event) => {
             image.src = event.target.result;
             cropper.replace(event.target.result);
+            document.getElementById('imageContainer').style.display = 'block';
+            document.getElementById('cropButton').style.display = 'inline-block';
         };
         reader.readAsDataURL(file);
     });
@@ -70,40 +49,45 @@
         const croppedCanvas = cropper.getCroppedCanvas();
         if (croppedCanvas) {
             const croppedImageData = croppedCanvas.toDataURL('image/jpeg');
+            function sendCroppedImageData(croppedImageData) {
+                var formData = new FormData();
+                formData.append('croppedImageData', croppedImageData);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/api/cropped-image', true);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        console.log('Cropped image data sent successfully');
+                    } else {
+                        console.error('Error sending cropped image data');
+                    }
+                };
+                xhr.send(formData);
+            }
+            sendCroppedImageData(croppedImageData);
+            document.getElementById('uploadButton').style.display = 'inline-block';
+            document.getElementById('cropButton').style.display = 'none';
         }
     });
-</script>
 
-<script>
-
-    function sendCroppedImageData(croppedImageData)
-        var formData = new FormData();
-        formData.append('croppedImageData', croppedImageData);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/api/cropped-image', true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                console.log('Cropped image data sent successfully');
-            } else {
-                console.error('Error sending cropped image data');
+    document.getElementById('uploadButton').addEventListener('click', () => {
+        const formData = new FormData(document.getElementById('imageUploadForm'));
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/api/image', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    document.getElementById("status").textContent = "Image uploaded successfully!";
+                    document.getElementById('uploadButton').style.display = 'none';
+                } else {
+                    document.getElementById("status").textContent = "Error uploading image. Please try again.";
+                }
             }
         };
         xhr.send(formData);
-    }
-
-
-    document.getElementById('cropButton').addEventListener('click', function () {
-        var croppedCanvas = cropper.getCroppedCanvas();
-        if (croppedCanvas) {
-            var croppedImageData = croppedCanvas.toDataURL('image/jpeg');
-            sendCroppedImageData(croppedImageData);
-        } else {
-            console.error('Failed to get cropped canvas');
-        }
     });
-</script>
-
-
+    </script>
 </body>
 </html>
+
+
