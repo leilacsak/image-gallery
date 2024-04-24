@@ -8,17 +8,17 @@
 
     <nav>
         <ul>
-            <li><a href="/Login">Login</a></li>
-            <li><a href="/Register">Register</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
          </ul>
     </nav>
 
-    <h1 th:text="${gallery.Title}"></h1>
-    <p th:text="${gallery.Description}"></p>
+    <h1 th:text="${gallery.title}"></h1>
+    <p th:text="${gallery.description}"></p>
 
     <div th:each="gallery : ${gallery}">
-        <h2 th:text="${gallery.Title}"></h2>
-        <p th:text="${gallery.Description}"></p>
+        <h2 th:text="${gallery.title}"></h2>
+        <p th:text="${gallery.description}"></p>
     </div>
 
 </body>

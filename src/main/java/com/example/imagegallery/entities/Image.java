@@ -3,6 +3,7 @@ package com.example.imagegallery.entities;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "images")
 public class Image {
 
     @Id
@@ -10,7 +11,6 @@ public class Image {
     private Long imageId;
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Gallery.class)
     @JoinColumn(name = "galleryId", referencedColumnName = "galleryId")
-
     private Gallery gallery;
 
     private String fileName;

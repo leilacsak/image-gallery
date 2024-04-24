@@ -3,11 +3,12 @@ package com.example.imagegallery.controllers;
 import com.example.imagegallery.entities.Gallery;
 import com.example.imagegallery.services.GalleryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-@RestController
+@Controller
 
 public class GalleryViewController {
 

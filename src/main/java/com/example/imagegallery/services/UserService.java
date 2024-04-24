@@ -16,6 +16,7 @@ public class UserService {
     private final GalleryRepository galleryRepository;
 
 
+
     @Autowired
     public UserService (UserRepository userRepository, GalleryRepository galleryRepository){
         this.userRepository = userRepository;

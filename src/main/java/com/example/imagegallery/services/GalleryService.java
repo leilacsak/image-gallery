@@ -1,4 +1,3 @@
-
 package com.example.imagegallery.services;
 
 import com.example.imagegallery.NotFoundException;

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "galleries")
 @NamedQuery(name = "Image.findByGalleryId",
             query = "select i from Image i where i.gallery.galleryId = :galleryId")
 
